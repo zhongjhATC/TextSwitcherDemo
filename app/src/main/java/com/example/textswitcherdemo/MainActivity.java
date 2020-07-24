@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private Handler handlerClear = new Handler();
     private Handler handlerAdd = new Handler();
+    private Handler handlerAdd2 = new Handler();
     private boolean isFlipping = false; // 是否启用预警信息轮播
     private List<String> mWarningTextList = new ArrayList<>();
     private TextSwitcher mTextSwitcher;
@@ -37,15 +38,14 @@ public class MainActivity extends AppCompatActivity {
         mWarningTextList.add("2222222");
         mWarningTextList.add("3333333");
         setTextSwitcher();
-        runnable.run();
+        setData();
         runnableClear.run();
         runnableAdd.run();
+        runnableAdd2.run();
     }
 
 
     private void setTextSwitcher() {
-        mTextSwitcher.setInAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_bottom));
-        mTextSwitcher.setOutAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_top));
         mTextSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
@@ -99,6 +99,14 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private Runnable runnableAdd2 = new Runnable() {
+        @Override
+        public void run() {
+            mWarningTextList.add(String.valueOf((Math.random() * 9 + 1) * 100000));
+            startAdd2();
+        }
+    };
+
     // 开启信息轮播
     public void startFlipping() {
         handler.removeCallbacks(runnable);
@@ -114,6 +122,11 @@ public class MainActivity extends AppCompatActivity {
     public void startAdd() {
         handlerAdd.removeCallbacks(runnableAdd);
         handlerAdd.postDelayed(runnableAdd, 500);
+    }
+
+    public void startAdd2() {
+        handlerAdd2.removeCallbacks(runnableAdd2);
+        handlerAdd2.postDelayed(runnableAdd2, 500);
     }
 
     // 关闭信息轮播
